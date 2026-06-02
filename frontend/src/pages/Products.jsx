@@ -3,7 +3,6 @@ import api from "../services/api";
 
 function Products() {
   const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -29,43 +28,24 @@ function Products() {
       JSON.stringify(cart)
     );
 
-    alert("Product Added To Cart");
+    alert("Product added to cart");
   };
 
-  // FILTER PRODUCTS
-  const filteredProducts = products.filter((product) =>
-    product.name
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
-
   return (
-    <div className="container mt-4">
-
-      <h2 className="mb-4 text-center">
+    <div className="container mt-5 pt-5">
+      <h2 className="text-center mb-4">
         Products
       </h2>
 
-      {/* SEARCH BAR */}
-      <input
-        type="text"
-        placeholder="Search Products..."
-        className="form-control mb-4"
-        value={search}
-        onChange={(e) =>
-          setSearch(e.target.value)
-        }
-      />
-
       <div className="row">
-
-        {filteredProducts.map((product) => (
+        {products.map((product) => (
           <div
             className="col-md-4"
             key={product._id}
           >
             <div className="card p-3 mb-4 shadow-sm">
 
+              {/* PRODUCT IMAGE */}
               <img
                 src={
                   product.image ||
@@ -74,16 +54,19 @@ function Products() {
                 alt={product.name}
                 className="card-img-top"
                 style={{
-                  height: "220px",
+                  height: "200px",
                   objectFit: "cover",
                 }}
               />
 
               <div className="card-body">
+                <h4 className="card-title">
+                  {product.name}
+                </h4>
 
-                <h4>{product.name}</h4>
-
-                <p>{product.description}</p>
+                <p className="card-text">
+                  {product.description}
+                </p>
 
                 <h5 className="text-success">
                   ₹{product.price}
@@ -94,24 +77,16 @@ function Products() {
                 </p>
 
                 <button
-                  className="btn w-100"
-                  style={{
-                    backgroundColor: "#3E8E9E",
-                    color: "white",
-                  }}
-                  onClick={() =>
-                    addToCart(product)
-                  }
+                  className="btn btn-primary w-100"
+                  onClick={() => addToCart(product)}
                 >
-                  Add To Cart
+                  Add to Cart
                 </button>
-
               </div>
 
             </div>
           </div>
         ))}
-
       </div>
     </div>
   );
